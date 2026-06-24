@@ -60,6 +60,16 @@ NPU-Operator-Scheduler/
 
 ---
 
+## 📊 核心运行结果展示 / Core Visualizations
+
+系统计算了神经网络处理器在调度不同卷积与矩阵乘算子时的片上内存溢出（Spill）成本分布，并生成了算子的时序内存水位变化曲线：
+
+| 算子调度周期与内存水位时空曲线 (以 Matmul 为例) | 物理内存 Spill 数据溢出与换入换出代价分析 |
+| :---: | :---: |
+| ![Scheduler Timeline](images/scheduler_timeline.png) | ![Memory Usage & Spill Analysis](images/memory_usage_analysis.png) |
+
+---
+
 ## 🚀 快速运行演示 / Getting Started
 
 ### 1. 安装可视化依赖
