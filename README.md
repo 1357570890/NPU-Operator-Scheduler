@@ -60,13 +60,25 @@ NPU-Operator-Scheduler/
 
 ---
 
-## 📊 核心运行结果展示 / Core Visualizations
+## 📊 核心运行结果与图谱分析 / Core Visualizations & Analytics
 
-系统计算了神经网络处理器在调度不同卷积与矩阵乘算子时的片上内存溢出（Spill）成本分布，并生成了算子的时序内存水位变化曲线：
+系统能够解析神经网络算子数据流图，对 L1/UB 缓存物理容量进行全生命周期模拟，并输出多维度的调度分析图表：
 
-| 算子调度周期与内存水位时空曲线 (以 Matmul 为例) | 物理内存 Spill 数据溢出与换入换出代价分析 |
+### 1. 核内调度决策流程拓扑
+系统整体数据流解析与多阶段启发式调度优化架构如下：
+![Scheduler Flowchart](images/npu_scheduler_flowchart.png)
+
+### 2. 算子拓扑特征与内存特征分析 (以 FlashAttention 为例)
+系统自动分析复杂算子（如 FlashAttention）在不同用例下的算子类型、内存段类型需求及物理节点度数特征，为启发式搜索和 Spill 代价提供数据支撑：
+
+| FlashAttention Case 0 算子操作类型统计 | FlashAttention Case 1 内存段类型与入出度分布 |
 | :---: | :---: |
-| ![Scheduler Timeline](images/scheduler_timeline.png) | ![Memory Usage & Spill Analysis](images/memory_usage_analysis.png) |
+| ![FlashAttention Case 0](images/npu_flashattention_case0.png) | ![FlashAttention Case 1](images/npu_flashattention_case1.png) |
+
+### 3. 多核并行优化调度性能对比
+在多核异构处理器下，对于复杂计算图进行算子切分和片上数据并行调度，优化后（问题 3 算法）较优化前（问题 2 单核基准）执行时延（Cycles）显著降低约 **35.49%**：
+
+![Optimization Comparison](images/npu_optimization_comparison.png)
 
 ---
 
